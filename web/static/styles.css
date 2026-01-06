@@ -1,0 +1,840 @@
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--gray-900);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-lg);
+}
+
+header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--gray-700);
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gray-100);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tab.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--gray-800);
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-300);
+}
+
+.recommendations {
+    display: grid;
+    gap: 16px;
+}
+
+.recommendation-card {
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+}
+
+.recommendation-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.rec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 16px;
+}
+
+.rec-appliance {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.rec-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.rec-badge.best {
+    background: var(--success);
+    color: white;
+}
+
+.rec-badge.good {
+    background: var(--primary);
+    color: white;
+}
+
+.rec-windows {
+    display: grid;
+    gap: 12px;
+}
+
+.rec-best-time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--gray-50);
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+.best-time-slots {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.best-time-cost {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.best-time-cost.negative {
+    color: var(--success);
+}
+
+.best-time-cost.low {
+    color: var(--primary);
+}
+
+.window {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: var(--gray-50);
+    border-radius: 8px;
+}
+
+.window-time {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.window-cost {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.window-cost.negative {
+    color: var(--success);
+}
+
+.window-cost.low {
+    color: var(--primary);
+}
+
+.window-reason {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin-top: 4px;
+}
+
+.appliances-list {
+    display: grid;
+    gap: 12px;
+}
+
+.appliance-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.appliance-card:hover {
+    border-color: var(--primary);
+}
+
+.appliance-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.appliance-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--gray-700);
+}
+
+.appliance-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+}
+
+.btn-danger {
+    background: #dc2626;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.modal-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--gray-700);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="time"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--gray-700);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 20px;
+    border-top: 1px solid var(--gray-200);
+}
+
+#appliance-form {
+    padding: 20px;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+.prices-table {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.price-row:hover {
+    background: var(--gray-50);
+}
+
+.price-time {
+    font-weight: 500;
+}
+
+.price-value {
+    font-weight: 700;
+}
+
+.price-value.negative {
+    color: var(--success);
+}
+
+.price-value.low {
+    color: var(--primary);
+}
+
+.price-value.high {
+    color: var(--danger);
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray-700);
+}
+
+.spinner {
+    border: 3px solid var(--gray-200);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray-700);
+}
+
+.empty-state p {
+    margin-bottom: 16px;
+}
+
+/* Smart Recommendations */
+.smart-rec-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.smart-rec-card h3 {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+}
+
+.best-option {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.option-badge {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.9);
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.option-content {
+    margin-top: 12px;
+}
+
+.option-day {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+.option-time {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.weather-info {
+    font-size: 14px;
+    margin: 8px 0;
+    opacity: 0.95;
+}
+
+.option-cost {
+    font-size: 16px;
+    margin: 12px 0;
+}
+
+.option-cost strong {
+    font-size: 22px;
+    margin: 0 8px;
+}
+
+.savings {
+    background: rgba(76, 175, 80, 0.9);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.option-recommendation {
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 12px;
+    opacity: 0.95;
+}
+
+.other-options {
+    margin-top: 12px;
+}
+
+.other-options summary {
+    cursor: pointer;
+    opacity: 0.9;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.other-options summary:hover {
+    opacity: 1;
+}
+
+.alt-option {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+.alt-option .option-time {
+    font-size: 18px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    header {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .status {
+        font-size: 13px;
+    }
+
+    /* Tabs */
+    nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 16px;
+    }
+
+    nav .tab {
+        font-size: 14px;
+        padding: 10px 16px;
+        white-space: nowrap;
+    }
+
+    /* Cards */
+    .card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    /* Form elements */
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 16px; /* Prevent iOS zoom on focus */
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-row input {
+        width: 100%;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .card-header .btn {
+        width: 100%;
+    }
+
+    /* Appliances list */
+    .appliance-card {
+        padding: 12px;
+    }
+
+    .appliance-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .appliance-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .appliance-actions .btn {
+        flex: 1;
+    }
+
+    /* Recommendations */
+    .recommendation-card {
+        padding: 12px;
+    }
+
+    .rec-time {
+        font-size: 20px;
+    }
+
+    .rec-info {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    /* Smart Recommendations */
+    .smart-rec-card {
+        padding: 16px;
+    }
+
+    .smart-rec-card h3 {
+        font-size: 18px;
+    }
+
+    .best-option {
+        padding: 12px;
+    }
+
+    .option-time {
+        font-size: 20px;
+    }
+
+    .option-cost {
+        font-size: 14px;
+    }
+
+    .option-cost strong {
+        font-size: 18px;
+    }
+
+    /* Weather widget */
+    #weather-display > div {
+        flex-direction: column;
+        gap: 12px !important;
+        text-align: center;
+    }
+
+    #weather-display .weather-info {
+        font-size: 14px;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        max-width: 95%;
+        margin: 20px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-header h3 {
+        font-size: 18px;
+    }
+
+    /* Chart */
+    .chart-container {
+        height: 250px;
+    }
+
+    /* Price chart labels */
+    canvas {
+        max-height: 250px;
+    }
+
+    /* Tabs scroll hint */
+    nav::after {
+        content: '→';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(to left, white 60%, transparent);
+        padding: 0 12px;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 900px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
+    header h1 {
+        font-size: 20px;
+    }
+
+    .btn {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .option-time {
+        font-size: 18px;
+    }
+
+    .rec-time {
+        font-size: 18px;
+    }
+}

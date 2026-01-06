@@ -1,0 +1,54 @@
+# Binaries (root directory only - not cmd subdirs)
+/smart-run
+/smartrund
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Local development
+.smartrun/
+test_*.go
+debug_*.go
+
+# Configuration (may contain personal data)
+config.yaml
+config.yml
+
+# Logs
+*.log
+
+
+# Downloaded packages
+AWSCLIV2.pkg
+docs/archive/
+design-docs/

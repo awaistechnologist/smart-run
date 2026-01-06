@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>SmartRun - Agile Energy Optimizer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>⚡ SmartRun <span style="font-size: 0.5em; opacity: 0.6;">v2.2</span></h1>
+            <p class="subtitle">Optimize your appliances with Octopus Agile pricing</p>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span id="status-text">Loading...</span>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="dashboard">Dashboard</button>
+            <button class="tab" data-tab="appliances">Appliances</button>
+            <button class="tab" data-tab="prices">Prices</button>
+            <button class="tab" data-tab="settings">Settings</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard-tab" class="tab-content active">
+            <section class="card" id="weather-widget" style="display: none;">
+                <h2>Weather Forecast</h2>
+                <div id="weather-display"></div>
+            </section>
+
+            <section class="card" id="smart-recommendations-section" style="display: none;">
+                <h2>🌤️ Smart Recommendations</h2>
+                <div id="smart-recommendations"></div>
+            </section>
+
+            <section class="card">
+                <h2>Today's Recommendations</h2>
+                <div id="recommendations-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Calculating optimal times...</p>
+                </div>
+                <div id="recommendations" class="recommendations"></div>
+            </section>
+
+            <section class="card">
+                <h2>Price Timeline (Today & Tomorrow)</h2>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <!-- Appliances Tab -->
+        <div id="appliances-tab" class="tab-content">
+            <section class="card">
+                <div class="card-header">
+                    <h2>Your Appliances</h2>
+                    <button class="btn btn-primary" id="add-appliance-btn">+ Add Appliance</button>
+                </div>
+                <div id="appliances-list" class="appliances-list"></div>
+            </section>
+
+            <!-- Add Appliance Form (Hidden by default) -->
+            <div id="add-appliance-form" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Add New Appliance</h3>
+                        <button class="close-btn" id="close-form">&times;</button>
+                    </div>
+                    <form id="appliance-form">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="appliance-name" required placeholder="e.g., Dishwasher">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Cycle (minutes)</label>
+                                <input type="number" id="appliance-cycle" value="60" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Energy (kWh)</label>
+                                <input type="number" id="appliance-kwh" value="1.0" step="0.1" min="0.1" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Noise Level (1-5)</label>
+                                <input type="number" id="appliance-noise" value="3" min="1" max="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Priority (1-5)</label>
+                                <input type="number" id="appliance-priority" value="3" min="1" max="5" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Control Type</label>
+                                <select id="appliance-control">
+                                    <option value="manual">Manual (I press start)</option>
+                                    <option value="smart">Smart (Auto-start via plug/HA)</option>
+                                </select>
+                                <small>Manual = only during waking hours</small>
+                            </div>
+                            <div class="form-group">
+                                <label>How Often?</label>
+                                <select id="appliance-frequency">
+                                    <option value="daily">Daily</option>
+                                    <option value="3x_week">3x per week</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="on_demand" selected>On-demand only</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Appliance Type</label>
+                                <select id="appliance-class" onchange="toggleCoupledFields()">
+                                    <option value="standalone" selected>Standalone (runs independently)</option>
+                                    <option value="coupled">Coupled (needs another appliance after)</option>
+                                    <option value="weather_dependent">Weather-dependent (can use sun/weather)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="coupled-appliance-group" style="display: none;">
+                                <label>Coupled With</label>
+                                <select id="appliance-coupled">
+                                    <option value="">None</option>
+                                </select>
+                                <small>Runs after this appliance completes</small>
+                            </div>
+                        </div>
+                        <div class="form-group" id="can-wait-group" style="display: none;">
+                            <label>Can wait for better conditions? <span id="wait-days-label">0 days</span></label>
+                            <input type="range" id="appliance-can-wait" min="0" max="3" value="0" oninput="updateWaitDaysLabel(this.value)">
+                            <small>Check weather for next few days to save money</small>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="cancel-form">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add Appliance</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prices Tab -->
+        <div id="prices-tab" class="tab-content">
+            <section class="card">
+                <h2>Current Agile Prices</h2>
+                <div id="prices-table" class="prices-table"></div>
+            </section>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="tab-content">
+            <section class="card">
+                <h2>Household Settings</h2>
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label>Household Name</label>
+                        <input type="text" id="household-name" value="My Household">
+                        <input type="hidden" id="household-lat">
+                        <input type="hidden" id="household-lon">
+                    </div>
+                    <div class="form-group">
+                        <label>Octopus Energy Region</label>
+                        <select id="household-region">
+                            <option value="A">A - Eastern England</option>
+                            <option value="B">B - East Midlands</option>
+                            <option value="C" selected>C - London</option>
+                            <option value="D">D - Merseyside and Northern Wales</option>
+                            <option value="E">E - West Midlands</option>
+                            <option value="F">F - North Eastern England</option>
+                            <option value="G">G - North Western England</option>
+                            <option value="H">H - Southern England</option>
+                            <option value="J">J - South Eastern England</option>
+                            <option value="K">K - Southern Wales</option>
+                            <option value="L">L - South Western England</option>
+                            <option value="M">M - Yorkshire</option>
+                            <option value="N">N - Southern Scotland</option>
+                            <option value="P">P - Northern Scotland</option>
+                        </select>
+                        <button type="button" class="btn btn-secondary" id="auto-detect-region" onclick="autoDetectRegion()" style="margin-top: 0.5rem;">
+                            📍 Auto-detect Region
+                        </button>
+                        <small>Your Octopus Agile tariff region</small>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="stagger-loads">
+                            Stagger heavy loads (prevent multiple high-power devices running simultaneously)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Sleep/Wake Schedule (for manual appliances)</label>
+                        <div class="form-row">
+                            <input type="time" id="wake-time" value="07:00" placeholder="Wake time">
+                            <span>to</span>
+                            <input type="time" id="sleep-time" value="23:30" placeholder="Sleep time">
+                        </div>
+                        <small>Manual appliances can only START within this window (applies to everyone)</small>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="enable-quiet-hours">
+                            Enable Quiet Hours (for flats/apartments only)
+                        </label>
+                    </div>
+                    <div class="form-group" id="quiet-hours-settings" style="display: none; margin-left: 24px;">
+                        <label>Quiet Hours</label>
+                        <div class="form-row">
+                            <input type="time" id="quiet-start" value="22:00">
+                            <span>to</span>
+                            <input type="time" id="quiet-end" value="07:00">
+                        </div>
+                        <small>Noisy appliances won't START during these hours (noise restriction for neighbors)</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <script src="/static/app.js?v=2.1"></script>
+</body>
+</html>

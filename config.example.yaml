@@ -1,0 +1,44 @@
+# SmartRun Configuration Example
+# Copy this file to ~/.smartrun/config.yaml and update with your values
+
+# Your Octopus Energy region code (A-P)
+# Find your region code at: https://www.energy-stats.uk/dno-region-codes-explained/
+# Common regions:
+#   A - Eastern England
+#   B - East Midlands
+#   C - London
+#   D - Merseyside and Northern Wales
+#   E - West Midlands
+#   F - North Eastern England
+#   G - North Western England
+#   H - Southern England
+#   J - South Eastern England
+#   K - Southern Wales
+#   L - South Western England
+#   M - Yorkshire
+#   N - Southern Scotland
+#   P - Northern Scotland
+region: "C"
+
+# Your location coordinates for weather data
+# Used to provide weather-aware recommendations
+# Find your coordinates at: https://www.latlong.net/
+latitude: 51.5074
+longitude: -0.1278
+
+# Household preferences
+household:
+  name: "My Household"
+
+  # Quiet hours - times when noisy appliances shouldn't run
+  # Format: HH:MM
+  quiet_hours:
+    - start: "22:00"
+      end: "07:00"
+      days_of_week: [1, 2, 3, 4, 5, 6, 7]  # 1=Monday, 7=Sunday
+
+  # Carbon weight (0.0 = cost only, 1.0 = prioritize low carbon)
+  carbon_weight: 0.0
+
+  # Stagger heavy loads to avoid peak demand
+  stagger_heavy_loads: true
